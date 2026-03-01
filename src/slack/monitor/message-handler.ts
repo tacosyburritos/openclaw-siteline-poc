@@ -81,6 +81,10 @@ export function createSlackMessageHandler(params: {
         },
       });
       if (!prepared) {
+        ctx.logger.info(
+          { channel: syntheticMessage.channel, ts: syntheticMessage.ts },
+          "slack: prepare returned null, dropping message",
+        );
         return;
       }
       if (entries.length > 1) {
@@ -110,7 +114,8 @@ export function createSlackMessageHandler(params: {
     ) {
       return;
     }
-    if (ctx.markMessageSeen(message.channel, message.ts)) {
+    const messageTs = message.ts ?? message.event_ts;
+    if (ctx.markMessageSeen(message.channel, messageTs)) {
       return;
     }
     const resolvedMessage = await threadTsResolver.resolve({ message, source: opts.source });
