@@ -11,7 +11,7 @@ RUN chown node:node /app
 
 ARG OPENCLAW_DOCKER_APT_PACKAGES=""
 RUN apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends jq \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends jq python3 python3-matplotlib \
   && if [ -n "$OPENCLAW_DOCKER_APT_PACKAGES" ]; then \
        apt-get install -y --no-install-recommends $OPENCLAW_DOCKER_APT_PACKAGES; \
      fi \
